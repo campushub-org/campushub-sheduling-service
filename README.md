@@ -1,0 +1,1 @@
+# campushub-sheduling-service
