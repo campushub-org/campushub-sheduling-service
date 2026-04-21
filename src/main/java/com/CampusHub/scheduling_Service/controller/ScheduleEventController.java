@@ -1,5 +1,6 @@
 package com.CampusHub.scheduling_Service.controller;
 
+import com.CampusHub.scheduling_Service.dto.ScheduleEventDTO;
 import com.CampusHub.scheduling_Service.entity.ScheduleEvent;
 import com.CampusHub.scheduling_Service.service.ScheduleEventService;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ScheduleEventController {
     }
 
     @GetMapping("/events")
-    public List<ScheduleEvent> getEvents(
+    public List<ScheduleEventDTO> getEvents(
             @RequestParam(required = false) Long groupId,
             @RequestParam(required = false) Long teacherId,
             @RequestParam(required = false) Long roomId) {
@@ -42,13 +43,11 @@ public class ScheduleEventController {
         scheduleEventService.deleteEvent(id);
     }
 
-    // Endpoint CRITIQUE pour le bouton "Sauvegarder tout" du front-end
     @PostMapping("/batch-save")
     public ResponseEntity<List<ScheduleEvent>> batchSave(@RequestBody List<ScheduleEvent> events) {
         return ResponseEntity.ok(scheduleEventService.saveAll(events));
     }
 
-    // Endpoint pour la détection de conflits en temps réel
     @PostMapping("/check-conflicts")
     public ResponseEntity<Boolean> checkConflicts(@RequestBody ScheduleEvent event) {
         return ResponseEntity.ok(scheduleEventService.hasConflicts(event));
