@@ -29,13 +29,12 @@ public class ScheduleEventService {
         this.salleClient = salleClient;
     }
 
-    public List<ScheduleEventDTO> getFilteredEvents(Long groupId, Long teacherId, Long roomId) {
+    public List<ScheduleEventDTO> getFilteredEvents(Long teacherId, Long roomId) {
         List<ScheduleEvent> events = scheduleEventRepository.findAll();
         
         return events.stream()
                 .filter(e -> {
                     boolean match = true;
-                    if (groupId != null) match = match && groupId.equals(e.getGroupId());
                     if (roomId != null) match = match && roomId.equals(e.getRoomId());
                     // ... filter by teacherId if needed ...
                     return match;
@@ -50,7 +49,13 @@ public class ScheduleEventService {
 
     public ScheduleEvent convertToEntity(ScheduleEventDTO dto) {
         ScheduleEvent e = new ScheduleEvent();
-        if (dto.getId() != null) e.setId(UUID.fromString(dto.getId()));
+        if (dto.getId() != null && !dto.getId().startsWith("new-")) {
+            try {
+                e.setId(UUID.fromString(dto.getId()));
+            } catch (IllegalArgumentException ex) {
+                // Ignore temporary ID, let JPA generate a new one
+            }
+        }
         e.setTitle(dto.getTitle() != null ? dto.getTitle() : "Sans titre");
         e.setSeriesId(dto.getSeriesId());
         e.setSubjectCode(dto.getSubjectCode());
@@ -58,8 +63,11 @@ public class ScheduleEventService {
         e.setDayOfWeek(dto.getDay());
         e.setStartTime(dto.getStartTime() != null ? java.time.LocalTime.parse(dto.getStartTime()) : java.time.LocalTime.of(8, 0));
         e.setEndTime(dto.getEndTime() != null ? java.time.LocalTime.parse(dto.getEndTime()) : java.time.LocalTime.of(10, 0));
-        e.setGroupId(dto.getGroupId());
         e.setRoomId(dto.getRoomId());
+        System.out.println("DEBUG: RoomId=" + dto.getRoomId() + ", TeacherId=" + dto.getTeacherId() + ", Title=" + e.getTitle());
+        if (dto.getTeacherId() != null) {
+            e.setAssignmentId(dto.getTeacherId());
+        }
         return e;
     }
 
@@ -79,7 +87,6 @@ public class ScheduleEventService {
         dto.setDay(e.getDayOfWeek());
         dto.setStartTime(e.getStartTime().toString());
         dto.setEndTime(e.getEndTime().toString());
-        dto.setGroupId(e.getGroupId());
         dto.setRoomId(e.getRoomId());
         dto.setSubjectCode(e.getSubjectCode());
         dto.setSeriesId(e.getSeriesId());

@@ -42,8 +42,6 @@ public class ScheduleEvent {
 
     @Column(nullable = false)
     private LocalTime endTime;
-
-    private Long groupId; // Identifiant du groupe d'étudiants
     
     private String academicYear;
     private int semester;

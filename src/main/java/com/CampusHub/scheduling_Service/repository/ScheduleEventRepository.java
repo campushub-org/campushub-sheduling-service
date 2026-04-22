@@ -9,6 +9,5 @@ import java.util.UUID;
 @Repository
 public interface ScheduleEventRepository extends JpaRepository<ScheduleEvent, UUID> {
     List<ScheduleEvent> findByRoomId(Long roomId);
-    List<ScheduleEvent> findByGroupId(Long groupId);
     List<ScheduleEvent> findBySubjectCode(String subjectCode);
 }

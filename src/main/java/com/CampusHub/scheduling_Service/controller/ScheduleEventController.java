@@ -23,15 +23,15 @@ public class ScheduleEventController {
 
     @GetMapping("/events")
     public List<ScheduleEventDTO> getEvents(
-            @RequestParam(required = false) Long groupId,
             @RequestParam(required = false) Long teacherId,
             @RequestParam(required = false) Long roomId) {
-        return scheduleEventService.getFilteredEvents(groupId, teacherId, roomId);
+        return scheduleEventService.getFilteredEvents(teacherId, roomId);
     }
 
     @PostMapping("/events")
-    public ScheduleEvent createEvent(@RequestBody ScheduleEvent event) {
-        return scheduleEventService.saveEvent(event);
+    public ResponseEntity<ScheduleEvent> createEvent(@RequestBody ScheduleEventDTO eventDTO) {
+        ScheduleEvent event = scheduleEventService.convertToEntity(eventDTO);
+        return ResponseEntity.ok(scheduleEventService.saveEvent(event));
     }
 
     @PutMapping("/events/{id}")
