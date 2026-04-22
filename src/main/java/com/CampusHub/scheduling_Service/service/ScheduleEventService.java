@@ -58,7 +58,7 @@ public class ScheduleEventService {
     private ScheduleEventDTO convertToDTO(ScheduleEvent e) {
         ScheduleEventDTO dto = new ScheduleEventDTO();
         dto.setId(e.getId().toString());
-        dto.setTitle(e.getSubjectCode()); // Ou titre complet résolu
+        dto.setTitle(e.getTitle());
         dto.setType(e.getType().toLowerCase());
         dto.setDay(e.getDayOfWeek());
         dto.setStartTime(e.getStartTime().toString());

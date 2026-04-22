@@ -4,7 +4,7 @@
               "s1": {
                 "subjects": [
                   {
-                    "name": "INTRODUCTION À L'ALGORITHMIQUE ET À LA PROGRAMMATION",
+                    "name": "INTRODUCTION A L'ALGORITHMIQUE ET A LA PROGRAMMATION",
                     "code": "INF111",
                     "credit": 6,
                     "category": "Fundamental",
@@ -12,7 +12,7 @@
                     "Assitant lecturer": ["TSOPZE","NORBERT"]
                   },
                   {
-                    "name": "INTRODUCTION À L'ARCHITECTURE DES ORDINATEURS",
+                    "name": "INTRODUCTION A L'ARCHITECTURE DES ORDINATEURS",
                     "code": "INF121",
                     "credit": 6,
                     "category": "Fundamental",
@@ -20,7 +20,7 @@
                     "Assitant lecturer": ["AMINOU","HALIDOU"]
                   },
                   {
-                    "name": "INTRODUCTION AUX SYSTÈMES ET RÉSEAUX",
+                    "name": "INTRODUCTION AUX SYSTEMES ET RESEAUX",
                     "code": "INF131",
                     "credit": 6,
                     "category": "Fundamental",
@@ -45,7 +45,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "INTRODUCTION À LA SÉCURITÉ INFORMATIQUE",
+                    "name": "INTRODUCTION A LA SECURITE INFORMATIQUE",
                     "code": "INF141",
                     "credit": 3,
                     "category": "COMPLEMENTAIRE",
@@ -90,7 +90,7 @@
                     "Assitant lecturer": ["TAPAMO","HYPPOLYTE"]
                   },
                   {
-                    "name": "INTRODUCTION À LA SCIENCE DES DONNÉES",
+                    "name": "INTRODUCTION A LA SCIENCE DES DONNEES",
                     "code": "INFO142",
                     "credit": 3,
                     "category": "Fundamental",
@@ -98,7 +98,7 @@
                     "Assitant lecturer": ["NZEKON",""]
                   },
                   {
-                    "name": "ALGEBRE 1B",
+                    "name": "ALGEBRE IB",
                     "code": "MAT112",
                     "credit": 6,
                     "category": "Fundamental",
@@ -106,7 +106,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": ["",""],
+                    "name": "RESEAUX LOCAL I",
                     "code": "INFO152",
                     "credit": 6,
                     "category": "Fundamental",
@@ -128,7 +128,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "PROGRAMMATION ORIENTÉE OBJET",
+                    "name": "PROGRAMMATION ORIENTEE OBJET",
                     "code": "INF211",
                     "credit": 6,
                     "category": "Fundamental",
@@ -243,7 +243,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "FRANÇAIS POUR SCIENCES MATHÉMATIQUES ET INFORMATIQUES II",
+                    "name": "FRANCAIS POUR SCIENCES MATHEMATIQUES ET INFORMATIQUES II",
                     "code": "FRA3045",
                     "credit": 3,
                     "category": "COMPLEMENTAIRE",
@@ -267,7 +267,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "FOUILLE DE DONNÉES I",
+                    "name": "FOUILLE DE DONNEES I",
                     "code": "INF3115",
                     "credit": 6,
                     "category": "Fundamental",
@@ -285,64 +285,64 @@
               "s2": {
                 "subjects": [
                   {
-                    "name": "",
-                    "code": "INF382",
+                    "name": "INTRODUCTION A LA THEORIE DES NOMBRES",
+                    "code": "INF3826",
                     "credit": 6,
                     "category": "Fundamental",
                     "Course Lecturer": ["",""],
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "",
-                    "code": "INF372",
+                    "name": "APPRENTISSAGE ARTIFICIEL ET TRAITEMENT D'IMAGE",
+                    "code": "INF3726",
                     "credit": 6,
                     "category": "Fundamental",
                     "Course Lecturer": ["",""],
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "",
-                    "code": "INF322",
+                    "name": "BASE DE DONNEES",
+                    "code": "INF3226",
                     "credit": 6,
                     "category": "Fundamental",
                     "Course Lecturer": ["",""],
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "",
-                    "code": "INF362",
+                    "name": "PROGRAMMATION SYSTEMES ET SERVICE RESEAU",
+                    "code": "INF3626",
                     "credit": 6,
                     "category": "Fundamental",
                     "Course Lecturer": ["",""],
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "",
-                    "code": "INF352",
+                    "name": "TEST DE LOGICIEL ET ASSURANCE QUALITE",
+                    "code": "INF3526",
                     "credit": 6,
                     "category": "Fundamental",
                     "Course Lecturer": ["",""],
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "",
-                    "code": "INF342",
+                    "name": "THEORIE DES LANGAGES ET COMPILATION",
+                    "code": "INF3426",
                     "credit": 6,
                     "category": "Fundamental",
                     "Course Lecturer": ["",""],
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "",
-                    "code": "INF316",
+                    "name": "ANALYSES STATISTIQUES",
+                    "code": "INF3126",
                     "credit": 6,
                     "category": "Fundamental",
                     "Course Lecturer": ["",""],
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "",
-                    "code": "INF332",
+                    "name": "INTRODUCTION A LA THEORIE DES CODES",
+                    "code": "INF3326",
                     "credit": 6,
                     "category": "Fundamental",
                     "Course Lecturer": ["",""],
@@ -350,7 +350,7 @@
                   },
                   {
                     "name": "PROJET PROFESSIONNEL DE L'ETUDIANT III",
-                    "code": "PPE312",
+                    "code": "PPE3126",
                     "credit": 6,
                     "category": "Fundamental",
                     "Course Lecturer": ["",""],
@@ -363,7 +363,7 @@
               "s1": {
                 "subjects": [
                   {
-                    "name": "COMPLEXITÉ ET ALGORITHMIQUE AVANCÉE",
+                    "name": "COMPLEXITE ET ALGORITHMIQUE AVANCEE",
                     "code": "INF4017",
                     "credit": 6,
                     "category": "Fundamental",
@@ -371,7 +371,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "GÉNIE LOGICIEL",
+                    "name": "GENIE LOGICIEL",
                     "code": "INF4027",
                     "credit": 6,
                     "category": "Fundamental",
@@ -403,7 +403,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "RÉSEAUX II",
+                    "name": "RESEAUX II",
                     "code": "INF4087",
                     "credit": 6,
                     "category": "Fundamental",
@@ -411,7 +411,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "PRINCIPES DE CONCEPTION DES SYSTÈMES D'EXPLOITATION",
+                    "name": "PRINCIPES DE CONCEPTION DES SYSTEMES D'EXPLOITATION",
                     "code": "INF4097",
                     "credit": 6,
                     "category": "Fundamental",
@@ -427,7 +427,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "FOUILLE DE DONNÉES II",
+                    "name": "FOUILLE DE DONNEES II",
                     "code": "INF4117",
                     "credit": 6,
                     "category": "Fundamental",
@@ -443,7 +443,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "ANALYSE DES DONNÉES",
+                    "name": "ANALYSE DES DONNEES",
                     "code": "INF4137",
                     "credit": 6,
                     "category": "Fundamental",
@@ -451,7 +451,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "SÉCURITÉ INFORMATIQUE",
+                    "name": "SECURITE INFORMATIQUE",
                     "code": "INF4147",
                     "credit": 6,
                     "category": "Fundamental",
@@ -459,7 +459,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "SÉCURITÉ LOGICIELLE",
+                    "name": "SECURITE LOGICIELLE",
                     "code": "INF4157",
                     "credit": 6,
                     "category": "Fundamental",
@@ -467,7 +467,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "CRYPTOGRAPHIE SYMÉTRIQUE",
+                    "name": "CRYPTOGRAPHIE SYMETRIQUE",
                     "code": "INF4167",
                     "credit": 6,
                     "category": "Fundamental",
@@ -479,7 +479,7 @@
               "s2": {
                 "subjects": [
                   {
-                    "name": "BASE DE DONNÉES DISTRIBUÉES",
+                    "name": "BASE DE DONNEES DISTRIBUEES",
                     "code": "INF4038",
                     "credit": 6,
                     "category": "Fundamental",
@@ -495,7 +495,7 @@
                     "Assitant lecturer": ["THOMAS","MESSI NGUELE"]
                   },
                   {
-                    "name": "GÉNIE LOGICIEL I",
+                    "name": "GENIE LOGICIEL I",
                     "code": "INF4178",
                     "credit": 6,
                     "category": "Fundamental",
@@ -503,7 +503,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "WEB SÉMANTIQUE ET APPLICATIONS",
+                    "name": "WEB SEMANTIQUE ET APPLICATIONS",
                     "code": "INF4188",
                     "credit": 6,
                     "category": "Fundamental",
@@ -527,7 +527,7 @@
                     "Assitant lecturer": ["THOMAS","MESSI NGUELE"]
                   },
                   {
-                    "name": "RÉSEAUX MOBILES ET SANS FILS",
+                    "name": "RESEAUX MOBILES ET SANS FILS",
                     "code": "INF4208",
                     "credit": 6,
                     "category": "Fundamental",
@@ -535,7 +535,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "PROGRAMMATION DISTRIBUÉE",
+                    "name": "PROGRAMMATION DISTRIBUEE",
                     "code": "INF4218",
                     "credit": 6,
                     "category": "Fundamental",
@@ -575,7 +575,7 @@
                     "Assitant lecturer": ["",""]
                   },
                   {
-                    "name": "CRYPTOGRAPHIE ASYMÉTRIQUE",
+                    "name": "CRYPTOGRAPHIE ASYMETRIQUE",
                     "code": "INF4268",
                     "credit": 6,
                     "category": "Fundamental",

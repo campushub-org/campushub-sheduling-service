@@ -13,4 +13,7 @@ public interface UserClient {
 
     @GetMapping("/api/users")
     List<UserDTO> getAllUsers();
+
+    @GetMapping("/api/users/teachers/department/{department}")
+    List<UserDTO> getTeachersByDepartment(@PathVariable("department") String department);
 }
