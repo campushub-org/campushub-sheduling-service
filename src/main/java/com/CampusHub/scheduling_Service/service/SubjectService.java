@@ -22,6 +22,10 @@ public class SubjectService {
         return subjectRepository.findByNiveauAndSemester(niveau, semester);
     }
 
+    public List<Subject> getSubjectsByNiveau(int niveau) {
+        return subjectRepository.findByNiveau(niveau);
+    }
+
     public Subject getSubjectByCode(String code) {
         return subjectRepository.findById(code).orElse(null);
     }

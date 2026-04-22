@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, String> {
     List<Subject> findByNiveauAndSemester(int niveau, int semester);
+    List<Subject> findByNiveau(int niveau);
 }

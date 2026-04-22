@@ -22,6 +22,8 @@ public class SubjectController {
             @RequestParam(required = false) Integer semester) {
         if (niveau != null && semester != null) {
             return subjectService.getSubjectsByNiveauAndSemester(niveau, semester);
+        } else if (niveau != null) {
+            return subjectService.getSubjectsByNiveau(niveau);
         }
         return subjectService.getAllSubjects();
     }
