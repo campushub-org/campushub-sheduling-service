@@ -1,6 +1,7 @@
 package com.CampusHub.scheduling_Service.controller;
 
 import com.CampusHub.scheduling_Service.dto.ScheduleEventDTO;
+import com.CampusHub.scheduling_Service.dto.ConflictCheckDTO;
 import com.CampusHub.scheduling_Service.entity.ScheduleEvent;
 import com.CampusHub.scheduling_Service.service.ScheduleEventService;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +54,8 @@ public class ScheduleEventController {
     }
 
     @PostMapping("/check-conflicts")
-    public ResponseEntity<Boolean> checkConflicts(@RequestBody ScheduleEvent event) {
-        return ResponseEntity.ok(scheduleEventService.hasConflicts(event));
+    public ResponseEntity<Boolean> checkConflicts(@RequestBody ConflictCheckDTO dto) {
+        // Logique simplifiée de vérification : on compare les champs du DTO avec les événements existants
+        return ResponseEntity.ok(scheduleEventService.checkConflicts(dto));
     }
 }

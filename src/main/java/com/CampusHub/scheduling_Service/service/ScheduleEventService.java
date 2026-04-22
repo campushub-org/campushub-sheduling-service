@@ -5,6 +5,7 @@ import com.CampusHub.scheduling_Service.client.SalleDTO;
 import com.CampusHub.scheduling_Service.client.UserClient;
 import com.CampusHub.scheduling_Service.client.UserDTO;
 import com.CampusHub.scheduling_Service.dto.ScheduleEventDTO;
+import com.CampusHub.scheduling_Service.dto.ConflictCheckDTO;
 import com.CampusHub.scheduling_Service.entity.ScheduleEvent;
 import com.CampusHub.scheduling_Service.repository.ScheduleEventRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -50,13 +51,13 @@ public class ScheduleEventService {
     public ScheduleEvent convertToEntity(ScheduleEventDTO dto) {
         ScheduleEvent e = new ScheduleEvent();
         if (dto.getId() != null) e.setId(UUID.fromString(dto.getId()));
-        e.setTitle(dto.getTitle());
+        e.setTitle(dto.getTitle() != null ? dto.getTitle() : "Sans titre");
         e.setSeriesId(dto.getSeriesId());
         e.setSubjectCode(dto.getSubjectCode());
-        e.setType(dto.getType());
+        e.setType(dto.getType() != null ? dto.getType() : "lecture");
         e.setDayOfWeek(dto.getDay());
-        e.setStartTime(java.time.LocalTime.parse(dto.getStartTime()));
-        e.setEndTime(java.time.LocalTime.parse(dto.getEndTime()));
+        e.setStartTime(dto.getStartTime() != null ? java.time.LocalTime.parse(dto.getStartTime()) : java.time.LocalTime.of(8, 0));
+        e.setEndTime(dto.getEndTime() != null ? java.time.LocalTime.parse(dto.getEndTime()) : java.time.LocalTime.of(10, 0));
         e.setGroupId(dto.getGroupId());
         e.setRoomId(dto.getRoomId());
         return e;
@@ -106,16 +107,19 @@ public class ScheduleEventService {
         return dto;
     }
 
-    public boolean hasConflicts(ScheduleEvent e) {
+    public boolean checkConflicts(ConflictCheckDTO dto) {
         List<ScheduleEvent> existingEvents = scheduleEventRepository.findAll();
         for (ScheduleEvent existing : existingEvents) {
-            if (existing.getId() != null && existing.getId().equals(e.getId())) continue;
-            boolean timeOverlap = e.getDayOfWeek() == existing.getDayOfWeek() &&
-                                 e.getStartTime().isBefore(existing.getEndTime()) &&
-                                 e.getEndTime().isAfter(existing.getStartTime());
-            if (timeOverlap) {
-                if (e.getRoomId().equals(existing.getRoomId())) return true;
-                if (e.getGroupId() != null && e.getGroupId().equals(existing.getGroupId())) return true;
+            // Comparaison simple par salle, jour et chevauchement d'heures
+            if (existing.getRoomId() != null && existing.getRoomId().toString().equals(dto.getRoom()) && 
+                existing.getDayOfWeek() == dto.getDay()) {
+
+                java.time.LocalTime start = java.time.LocalTime.parse(dto.getStartTime());
+                java.time.LocalTime end = java.time.LocalTime.parse(dto.getEndTime());
+
+                boolean timeOverlap = start.isBefore(existing.getEndTime()) &&
+                                     end.isAfter(existing.getStartTime());
+                if (timeOverlap) return true;
             }
         }
         return false;

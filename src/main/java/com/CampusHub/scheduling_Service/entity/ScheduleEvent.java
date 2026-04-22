@@ -21,7 +21,7 @@ public class ScheduleEvent {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String subjectCode;
 
     private String seriesId; // Nullable for unique events, shared for series
