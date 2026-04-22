@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/scheduling")
@@ -44,7 +45,10 @@ public class ScheduleEventController {
     }
 
     @PostMapping("/batch-save")
-    public ResponseEntity<List<ScheduleEvent>> batchSave(@RequestBody List<ScheduleEvent> events) {
+    public ResponseEntity<List<ScheduleEvent>> batchSave(@RequestBody List<ScheduleEventDTO> eventDTOs) {
+        List<ScheduleEvent> events = eventDTOs.stream()
+                .map(scheduleEventService::convertToEntity)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(scheduleEventService.saveAll(events));
     }
 

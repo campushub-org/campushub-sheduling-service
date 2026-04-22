@@ -20,7 +20,8 @@ public class ScheduleEventDTO {
     
     // IDs originaux pour permettre la modification
     private Long teacherId;
-    private Long roomId;
     private Long groupId;
+    private Long roomId;
     private String subjectCode;
-}
+    private String seriesId;
+    }

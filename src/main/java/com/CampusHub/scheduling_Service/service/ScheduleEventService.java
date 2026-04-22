@@ -47,6 +47,21 @@ public class ScheduleEventService {
         return scheduleEventRepository.save(event);
     }
 
+    public ScheduleEvent convertToEntity(ScheduleEventDTO dto) {
+        ScheduleEvent e = new ScheduleEvent();
+        if (dto.getId() != null) e.setId(UUID.fromString(dto.getId()));
+        e.setTitle(dto.getTitle());
+        e.setSeriesId(dto.getSeriesId());
+        e.setSubjectCode(dto.getSubjectCode());
+        e.setType(dto.getType());
+        e.setDayOfWeek(dto.getDay());
+        e.setStartTime(java.time.LocalTime.parse(dto.getStartTime()));
+        e.setEndTime(java.time.LocalTime.parse(dto.getEndTime()));
+        e.setGroupId(dto.getGroupId());
+        e.setRoomId(dto.getRoomId());
+        return e;
+    }
+
     public List<ScheduleEvent> saveAll(List<ScheduleEvent> events) {
         return scheduleEventRepository.saveAll(events);
     }
@@ -66,6 +81,7 @@ public class ScheduleEventService {
         dto.setGroupId(e.getGroupId());
         dto.setRoomId(e.getRoomId());
         dto.setSubjectCode(e.getSubjectCode());
+        dto.setSeriesId(e.getSeriesId());
 
         // Résolution des noms via Feign
         try {

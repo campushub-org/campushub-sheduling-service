@@ -24,6 +24,8 @@ public class ScheduleEvent {
     @Column(nullable = false)
     private String subjectCode;
 
+    private String seriesId; // Nullable for unique events, shared for series
+
     private Long assignmentId; // FK vers TeacherAssignment
 
     @Column(nullable = false)
