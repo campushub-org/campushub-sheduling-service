@@ -1,0 +1,322 @@
+[
+  {
+    "subjectCode": "INF111",
+    "teacherName": "ATSA ETOUNDI ROGER",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF111",
+    "teacherName": "TSOPZE NORBERT",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "INF121",
+    "teacherName": "KOUOKAM KOUOKAM E. A.",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF121",
+    "teacherName": "AMINOU HALIDOU",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "INF131",
+    "teacherName": "DOMGA KOMGUEM RODRIGUE",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF131",
+    "teacherName": "ADAMOU HAMZA",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "MAT131",
+    "teacherName": "BOGSO",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "MAT131",
+    "teacherName": "TCHOUNDJA EDGAR LANDRY",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "INF141",
+    "teacherName": "EKODECK",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF141",
+    "teacherName": "EBELE SERGE",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "INF112",
+    "teacherName": "AMINOU HALIDOU",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF122",
+    "teacherName": "KOUOKAM KOUOKAM E. A.",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF122",
+    "teacherName": "NZEKON",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "INFO132",
+    "teacherName": "TSOPZE NORBERT",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INFO142",
+    "teacherName": "MELATAGIA YONTA PAULIN",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INFO142",
+    "teacherName": "NZEKON",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "MAT112",
+    "teacherName": "OGADOA",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INFO152",
+    "teacherName": "ADAMOU HAMZA",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF211",
+    "teacherName": "ABESSOLO GHISLAIN",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF211",
+    "teacherName": "JIOMEKONG FIDEL AZANZI",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "INF221",
+    "teacherName": "ABESSOLO GHISLAIN",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF221",
+    "teacherName": "KOUOKAM KOUOKAM E. A.",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "INF231",
+    "teacherName": "TAPAMO HYPOLITE",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "MAT211",
+    "teacherName": "MBIAKOP HILAIRE GEORGE",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "MAT211",
+    "teacherName": "OGADOA",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "INF251",
+    "teacherName": "BAYEM JACQUES NARCISSE",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF251",
+    "teacherName": "ABESSOLO GHISLAIN",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "INF222",
+    "teacherName": "MESSI NGEULE THOMAS",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF222",
+    "teacherName": "JIOMEKONG FIDEL AZANZI",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "INF232",
+    "teacherName": "MAKEMBE S. OSWALD",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF232",
+    "teacherName": "NZEKON",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "INF212",
+    "teacherName": "NDOUNDAM RENE",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF242",
+    "teacherName": "MELATAGIA YONTA PAULIN",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF252",
+    "teacherName": "NKONDOCK BAHANACK N.",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF252",
+    "teacherName": "BAYEM JACQUES NARCISSE",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "PPE212",
+    "teacherName": "TAPAMO HYPOLITE",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "PPE212",
+    "teacherName": "MEFOUMA CHRISTELLE",
+    "role": "ASSISTANT_LECTURER"
+  },
+  {
+    "subjectCode": "MAT232",
+    "teacherName": "FOKAM",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4017",
+    "teacherName": "NDOUNDAM RENE",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4027",
+    "teacherName": "ATSA ETOUNDI ROGER",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4057",
+    "teacherName": "DJAM KIMBI XAVERIA YOUHEP",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4067",
+    "teacherName": "VALERY MONTHE",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4077",
+    "teacherName": "JIOMEKONG FIDEL AZANZI",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4087",
+    "teacherName": "AMINOU HALIDOU",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4097",
+    "teacherName": "ADAMOU HAMZA",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4107",
+    "teacherName": "MONTHE VALERY",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4117",
+    "teacherName": "TSOPZE NORBERT",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4127",
+    "teacherName": "MELATAGIA YONTA PAULIN",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4137",
+    "teacherName": "NZEKON",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4157",
+    "teacherName": "DJAM KIMBI XAVERIA YOUHEP",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4038",
+    "teacherName": "TAPAMO HYPOLITE",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4048",
+    "teacherName": "KOUOKAM KOUOKAM E. A.",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4178",
+    "teacherName": "DJAM KIMBI XAVERIA YOUHEP",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4188",
+    "teacherName": "JIOMEKONG FIDEL AZANZI",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4198",
+    "teacherName": "JIOMEKONG FIDEL AZANZI",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4048",
+    "teacherName": "KOUOKAM KOUOKAM E. A.",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4208",
+    "teacherName": "DOMGA KOMGUEM RODRIGUE",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4218",
+    "teacherName": "ADAMOU HAMZA",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4228",
+    "teacherName": "AMINOU HALIDOU",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4238",
+    "teacherName": "TAPAMO HYPOLITE",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4248",
+    "teacherName": "MELATAGIA YONTA PAULIN",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4258",
+    "teacherName": "TSOPZE NORBERT",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4268",
+    "teacherName": "EKODECK",
+    "role": "COURSE_LECTURER"
+  },
+  {
+    "subjectCode": "INF4278",
+    "teacherName": "NDOUNDAM RENE",
+    "role": "COURSE_LECTURER"
+  }
+]

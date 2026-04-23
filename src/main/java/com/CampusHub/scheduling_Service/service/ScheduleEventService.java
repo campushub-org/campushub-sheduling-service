@@ -8,6 +8,7 @@ import com.CampusHub.scheduling_Service.dto.ScheduleEventDTO;
 import com.CampusHub.scheduling_Service.dto.ConflictCheckDTO;
 import com.CampusHub.scheduling_Service.entity.ScheduleEvent;
 import com.CampusHub.scheduling_Service.repository.ScheduleEventRepository;
+import com.CampusHub.scheduling_Service.repository.TeacherAssignmentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,13 @@ import java.util.stream.Collectors;
 public class ScheduleEventService {
 
     private final ScheduleEventRepository scheduleEventRepository;
+    private final TeacherAssignmentRepository teacherAssignmentRepository;
     private final UserClient userClient;
     private final SalleClient salleClient;
 
-    public ScheduleEventService(ScheduleEventRepository scheduleEventRepository,UserClient userClient,SalleClient salleClient) {
+    public ScheduleEventService(ScheduleEventRepository scheduleEventRepository, TeacherAssignmentRepository teacherAssignmentRepository, UserClient userClient, SalleClient salleClient) {
         this.scheduleEventRepository = scheduleEventRepository;
+        this.teacherAssignmentRepository = teacherAssignmentRepository;
         this.userClient = userClient;
         this.salleClient = salleClient;
     }
@@ -91,12 +94,13 @@ public class ScheduleEventService {
         dto.setSubjectCode(e.getSubjectCode());
         dto.setSeriesId(e.getSeriesId());
 
-        // Résolution des noms via Feign
+        // Résolution des noms via Feign et Repository
         try {
             if (e.getAssignmentId() != null) {
-                // Pour simplifier ici, on pourrait aussi stocker le teacherId directement dans ScheduleEvent
-                // Si TeacherAssignment est utilisé, on récupère d'abord l'assignment
-                dto.setProfessor("Enseignant #" + e.getAssignmentId()); 
+                teacherAssignmentRepository.findById(e.getAssignmentId()).ifPresent(assignment -> {
+                    dto.setTeacherId(assignment.getId()); // On renvoie l'ID de l'assignation
+                    dto.setProfessor(assignment.getTeacherName() != null ? assignment.getTeacherName() : "Enseignant #" + assignment.getTeacherId());
+                });
             } else {
                 dto.setProfessor("Non assigné");
             }
@@ -106,7 +110,7 @@ public class ScheduleEventService {
                 dto.setRoom(salle != null ? salle.getNom() : "Salle Inconnue");
             }
         } catch (Exception ex) {
-            log.error("Erreur de résolution Feign : {}", ex.getMessage());
+            log.error("Erreur de résolution : {}", ex.getMessage());
             dto.setProfessor("Erreur Service");
             dto.setRoom("Erreur Service");
         }
