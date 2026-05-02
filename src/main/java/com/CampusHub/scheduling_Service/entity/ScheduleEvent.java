@@ -42,6 +42,9 @@ public class ScheduleEvent {
 
     @Column(nullable = false)
     private LocalTime endTime;
+
+    @Column(length = 1000)
+    private String description;
     
     private String academicYear;
     private int semester;

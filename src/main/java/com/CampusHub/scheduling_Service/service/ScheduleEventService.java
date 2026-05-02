@@ -67,7 +67,7 @@ public class ScheduleEventService {
         e.setStartTime(dto.getStartTime() != null ? java.time.LocalTime.parse(dto.getStartTime()) : java.time.LocalTime.of(8, 0));
         e.setEndTime(dto.getEndTime() != null ? java.time.LocalTime.parse(dto.getEndTime()) : java.time.LocalTime.of(10, 0));
         e.setRoomId(dto.getRoomId());
-        System.out.println("DEBUG: RoomId=" + dto.getRoomId() + ", TeacherId=" + dto.getTeacherId() + ", Title=" + e.getTitle());
+        e.setDescription(dto.getDescription());
         if (dto.getTeacherId() != null) {
             e.setAssignmentId(dto.getTeacherId());
         }
@@ -93,6 +93,7 @@ public class ScheduleEventService {
         dto.setRoomId(e.getRoomId());
         dto.setSubjectCode(e.getSubjectCode());
         dto.setSeriesId(e.getSeriesId());
+        dto.setDescription(e.getDescription());
 
         // Résolution des noms via Feign et Repository
         try {
