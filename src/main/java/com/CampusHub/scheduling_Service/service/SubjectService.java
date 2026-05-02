@@ -33,4 +33,8 @@ public class SubjectService {
     public Subject saveSubject(Subject subject) {
         return subjectRepository.save(subject);
     }
+
+    public void deleteSubject(String code) {
+        subjectRepository.deleteById(code);
+    }
 }

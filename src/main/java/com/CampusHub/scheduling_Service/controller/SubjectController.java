@@ -32,4 +32,20 @@ public class SubjectController {
     public Subject getSubjectByCode(@PathVariable String code) {
         return subjectService.getSubjectByCode(code);
     }
+
+    @PostMapping
+    public Subject createSubject(@RequestBody Subject subject) {
+        return subjectService.saveSubject(subject);
+    }
+
+    @PutMapping("/{code}")
+    public Subject updateSubject(@PathVariable String code, @RequestBody Subject subject) {
+        subject.setCode(code);
+        return subjectService.saveSubject(subject);
+    }
+
+    @DeleteMapping("/{code}")
+    public void deleteSubject(@PathVariable String code) {
+        subjectService.deleteSubject(code);
+    }
 }
