@@ -195,16 +195,12 @@ private static final String[] DAY_LABELS = {
             r.getWeekNumber(), r.getYear(), r.getNiveau(), r.getStatus().name()
         );
     }
-    public void cancelReservation(Long id, Long teacherId) {
+public void cancelReservation(Long id, Long teacherId) {
     SlotReservation reservation = reservationRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Réservation introuvable"));
     if (!reservation.getTeacherId().equals(teacherId)) {
         throw new RuntimeException("Action non autorisée");
     }
-    if (reservation.getStatus() == SlotReservation.ReservationStatus.REJECTED) {
-        throw new RuntimeException("Cette réservation est déjà annulée");
-    }
-    reservation.setStatus(SlotReservation.ReservationStatus.REJECTED);
-    reservationRepository.save(reservation);
+    reservationRepository.delete(reservation);
 }
 }
