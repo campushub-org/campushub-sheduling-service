@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+
 public class ScheduleEventService {
 
     private final ScheduleEventRepository scheduleEventRepository;
@@ -50,32 +51,42 @@ public class ScheduleEventService {
         return scheduleEventRepository.save(event);
     }
 
-    public ScheduleEvent convertToEntity(ScheduleEventDTO dto) {
-        ScheduleEvent e = new ScheduleEvent();
-        if (dto.getId() != null && !dto.getId().startsWith("new-")) {
-            try {
-                e.setId(UUID.fromString(dto.getId()));
-            } catch (IllegalArgumentException ex) {
-                // Ignore temporary ID, let JPA generate a new one
-            }
-        }
-        e.setTitle(dto.getTitle() != null ? dto.getTitle() : "Sans titre");
-        e.setSeriesId(dto.getSeriesId());
-        e.setSubjectCode(dto.getSubjectCode());
-        e.setType(dto.getType() != null ? dto.getType() : "lecture");
-        e.setDayOfWeek(dto.getDay());
-        e.setStartTime(dto.getStartTime() != null ? java.time.LocalTime.parse(dto.getStartTime()) : java.time.LocalTime.of(8, 0));
-        e.setEndTime(dto.getEndTime() != null ? java.time.LocalTime.parse(dto.getEndTime()) : java.time.LocalTime.of(10, 0));
-        e.setRoomId(dto.getRoomId());
-        e.setDescription(dto.getDescription());
-        if (dto.getTeacherId() != null) {
-            e.setAssignmentId(dto.getTeacherId());
-        }
-        return e;
+public ScheduleEvent convertToEntity(ScheduleEventDTO dto) {
+    ScheduleEvent e = new ScheduleEvent();
+    if (dto.getId() != null && !dto.getId().startsWith("new-")) {
+        try {
+            e.setId(UUID.fromString(dto.getId()));
+        } catch (IllegalArgumentException ex) { }
     }
+    e.setTitle(dto.getTitle() != null ? dto.getTitle() : "Sans titre");
+    e.setSeriesId(dto.getSeriesId());
+    e.setSubjectCode(dto.getSubjectCode());
+    e.setType(dto.getType() != null ? dto.getType() : "lecture");
+    e.setDayOfWeek(dto.getDay());
+    e.setStartTime(dto.getStartTime() != null ? java.time.LocalTime.parse(dto.getStartTime()) : java.time.LocalTime.of(8, 0));
+    e.setEndTime(dto.getEndTime() != null ? java.time.LocalTime.parse(dto.getEndTime()) : java.time.LocalTime.of(10, 0));
+    e.setRoomId(dto.getRoomId());
+    e.setDescription(dto.getDescription());
+
+    // Résoudre l'assignation depuis le teacher_id (ID user)
+    if (dto.getTeacherId() != null) {
+        teacherAssignmentRepository
+            .findFirstByTeacherId(dto.getTeacherId())
+            .ifPresentOrElse(
+                assignment -> e.setAssignmentId(assignment.getId()),
+                () -> e.setAssignmentId(null)
+            );
+    }
+    return e;
+}
 
     public List<ScheduleEvent> saveAll(List<ScheduleEvent> events) {
         return scheduleEventRepository.saveAll(events);
+    }
+    @org.springframework.transaction.annotation.Transactional
+    public List<ScheduleEvent> replaceAll(List<ScheduleEvent> newEvents) {
+    scheduleEventRepository.deleteAll();
+        return scheduleEventRepository.saveAll(newEvents);
     }
 
     public void deleteEvent(UUID id) {

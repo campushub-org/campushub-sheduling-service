@@ -52,6 +52,14 @@ public class ScheduleEventController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(scheduleEventService.saveAll(events));
     }
+    @PostMapping("/batch-replace")
+    public ResponseEntity<List<ScheduleEvent>> batchReplace(
+            @RequestBody List<ScheduleEventDTO> eventDTOs) {
+        List<ScheduleEvent> events = eventDTOs.stream()
+                .map(scheduleEventService::convertToEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(scheduleEventService.replaceAll(events));
+    }
 
     @PostMapping("/check-conflicts")
     public ResponseEntity<Boolean> checkConflicts(@RequestBody ConflictCheckDTO dto) {
