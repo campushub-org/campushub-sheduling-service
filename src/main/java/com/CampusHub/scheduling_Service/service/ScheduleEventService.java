@@ -12,6 +12,7 @@ import com.CampusHub.scheduling_Service.repository.TeacherAssignmentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -147,4 +148,79 @@ public ScheduleEvent convertToEntity(ScheduleEventDTO dto) {
         }
         return false;
     }
+    public List<String> validateBatch(List<ScheduleEventDTO> dtos) {
+    List<ScheduleEvent> existingEvents = scheduleEventRepository.findAll();
+    List<String> conflicts = new ArrayList<>();
+
+    for (int i = 0; i < dtos.size(); i++) {
+        ScheduleEventDTO dto = dtos.get(i);
+        java.time.LocalTime newStart = java.time.LocalTime.parse(dto.getStartTime());
+        java.time.LocalTime newEnd = java.time.LocalTime.parse(dto.getEndTime());
+
+        for (ScheduleEvent existing : existingEvents) {
+            boolean sameDay = existing.getDayOfWeek() == dto.getDay();
+            if (!sameDay) continue;
+
+            boolean timeOverlap = newStart.isBefore(existing.getEndTime()) &&
+                                  newEnd.isAfter(existing.getStartTime());
+            if (!timeOverlap) continue;
+
+            // Conflit de salle
+            if (dto.getRoomId() != null && dto.getRoomId().equals(existing.getRoomId())) {
+                conflicts.add(String.format(
+                    "Conflit de salle — \"%s\" : la salle ID %d est déjà occupée le %s de %s à %s.",
+                    dto.getTitle(), dto.getRoomId(), dayLabel(dto.getDay()),
+                    dto.getStartTime(), dto.getEndTime()
+                ));
+            }
+
+            // Conflit d'enseignant
+            if (dto.getTeacherId() != null && existing.getAssignmentId() != null) {
+                teacherAssignmentRepository.findFirstByTeacherId(dto.getTeacherId())
+                    .ifPresent(assignment -> {
+                        if (assignment.getId().equals(existing.getAssignmentId())) {
+                            conflicts.add(String.format(
+                                "Conflit d'enseignant — \"%s\" : l'enseignant est déjà assigné à un autre cours le %s de %s à %s.",
+                                dto.getTitle(), dayLabel(dto.getDay()),
+                                dto.getStartTime(), dto.getEndTime()
+                            ));
+                        }
+                    });
+            }
+        }
+
+        // Conflit entre les nouveaux créneaux eux-mêmes
+        for (int j = i + 1; j < dtos.size(); j++) {
+            ScheduleEventDTO other = dtos.get(j);
+            if (other.getDay() != dto.getDay()) continue;
+
+            java.time.LocalTime otherStart = java.time.LocalTime.parse(other.getStartTime());
+            java.time.LocalTime otherEnd = java.time.LocalTime.parse(other.getEndTime());
+            boolean overlap = newStart.isBefore(otherEnd) && newEnd.isAfter(otherStart);
+            if (!overlap) continue;
+
+            if (dto.getRoomId() != null && dto.getRoomId().equals(other.getRoomId())) {
+                conflicts.add(String.format(
+                    "Conflit interne — \"%s\" et \"%s\" partagent la même salle ID %d le %s de %s à %s.",
+                    dto.getTitle(), other.getTitle(), dto.getRoomId(),
+                    dayLabel(dto.getDay()), dto.getStartTime(), dto.getEndTime()
+                ));
+            }
+
+            if (dto.getTeacherId() != null && dto.getTeacherId().equals(other.getTeacherId())) {
+                conflicts.add(String.format(
+                    "Conflit interne — \"%s\" et \"%s\" assignent le même enseignant le %s de %s à %s.",
+                    dto.getTitle(), other.getTitle(),
+                    dayLabel(dto.getDay()), dto.getStartTime(), dto.getEndTime()
+                ));
+            }
+        }
+    }
+    return conflicts;
+}
+
+private String dayLabel(int day) {
+    String[] labels = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"};
+    return (day >= 0 && day < labels.length) ? labels[day] : "Jour " + day;
+}
 }
