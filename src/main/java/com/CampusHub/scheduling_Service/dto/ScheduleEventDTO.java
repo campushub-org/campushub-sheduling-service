@@ -23,4 +23,5 @@ public class ScheduleEventDTO {
     private String subjectCode;
     private Long roomId;
     private String seriesId;
-    }
+    private String planId; // UUID as String
+}

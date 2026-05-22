@@ -48,4 +48,8 @@ public class ScheduleEvent {
     
     private String academicYear;
     private int semester;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "plan_id")
+    private SchedulePlan plan;
 }

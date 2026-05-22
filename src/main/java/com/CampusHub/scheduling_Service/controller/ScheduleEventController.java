@@ -24,8 +24,9 @@ public class ScheduleEventController {
     @GetMapping("/events")
     public List<ScheduleEventDTO> getEvents(
             @RequestParam(required = false) Long teacherId,
-            @RequestParam(required = false) Long roomId) {
-        return scheduleEventService.getFilteredEvents(teacherId, roomId);
+            @RequestParam(required = false) Long roomId,
+            @RequestParam(required = false) UUID planId) {
+        return scheduleEventService.getFilteredEvents(teacherId, roomId, planId);
     }
 
     @PostMapping("/events")
