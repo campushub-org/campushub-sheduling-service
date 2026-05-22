@@ -9,6 +9,7 @@ import com.CampusHub.scheduling_Service.dto.ConflictCheckDTO;
 import com.CampusHub.scheduling_Service.entity.ScheduleEvent;
 import com.CampusHub.scheduling_Service.repository.ScheduleEventRepository;
 import com.CampusHub.scheduling_Service.repository.TeacherAssignmentRepository;
+import com.CampusHub.scheduling_Service.repository.SchedulePlanRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
