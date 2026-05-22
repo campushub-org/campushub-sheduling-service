@@ -9,6 +9,7 @@ import com.CampusHub.scheduling_Service.dto.ConflictCheckDTO;
 import com.CampusHub.scheduling_Service.entity.ScheduleEvent;
 import com.CampusHub.scheduling_Service.repository.ScheduleEventRepository;
 import com.CampusHub.scheduling_Service.repository.TeacherAssignmentRepository;
+import com.CampusHub.scheduling_Service.repository.SchedulePlanRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -22,24 +23,39 @@ public class ScheduleEventService {
 
     private final ScheduleEventRepository scheduleEventRepository;
     private final TeacherAssignmentRepository teacherAssignmentRepository;
+    private final SchedulePlanRepository schedulePlanRepository;
     private final UserClient userClient;
     private final SalleClient salleClient;
 
-    public ScheduleEventService(ScheduleEventRepository scheduleEventRepository, TeacherAssignmentRepository teacherAssignmentRepository, UserClient userClient, SalleClient salleClient) {
+    public ScheduleEventService(ScheduleEventRepository scheduleEventRepository, 
+                               TeacherAssignmentRepository teacherAssignmentRepository, 
+                               SchedulePlanRepository schedulePlanRepository,
+                               UserClient userClient, 
+                               SalleClient salleClient) {
         this.scheduleEventRepository = scheduleEventRepository;
         this.teacherAssignmentRepository = teacherAssignmentRepository;
+        this.schedulePlanRepository = schedulePlanRepository;
         this.userClient = userClient;
         this.salleClient = salleClient;
     }
 
-    public List<ScheduleEventDTO> getFilteredEvents(Long teacherId, Long roomId) {
-        List<ScheduleEvent> events = scheduleEventRepository.findAll();
+    public List<ScheduleEventDTO> getFilteredEvents(Long teacherId, Long roomId, UUID planId) {
+        List<ScheduleEvent> events;
+        
+        if (planId != null) {
+            events = scheduleEventRepository.findAll().stream()
+                    .filter(e -> e.getPlan() != null && e.getPlan().getId().equals(planId))
+                    .collect(Collectors.toList());
+        } else {
+            // Par défaut, on prend tous les événements (ou on pourrait filtrer par le plan actif)
+            events = scheduleEventRepository.findAll();
+        }
         
         return events.stream()
                 .filter(e -> {
                     boolean match = true;
                     if (roomId != null) match = match && roomId.equals(e.getRoomId());
-                    // ... filter by teacherId if needed ...
+                    if (teacherId != null) match = match && teacherId.equals(e.getAssignmentId());
                     return match;
                 })
                 .map(this::convertToDTO)
@@ -71,6 +87,9 @@ public class ScheduleEventService {
         if (dto.getTeacherId() != null) {
             e.setAssignmentId(dto.getTeacherId());
         }
+        if (dto.getPlanId() != null) {
+            schedulePlanRepository.findById(UUID.fromString(dto.getPlanId())).ifPresent(e::setPlan);
+        }
         return e;
     }
 
@@ -94,6 +113,9 @@ public class ScheduleEventService {
         dto.setSubjectCode(e.getSubjectCode());
         dto.setSeriesId(e.getSeriesId());
         dto.setDescription(e.getDescription());
+        if (e.getPlan() != null) {
+            dto.setPlanId(e.getPlan().getId().toString());
+        }
 
         // Résolution des noms via Feign et Repository
         try {
