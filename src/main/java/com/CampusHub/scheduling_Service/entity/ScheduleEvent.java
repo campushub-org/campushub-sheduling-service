@@ -46,6 +46,7 @@ public class ScheduleEvent {
 
     @Column(length = 1000)
     private String description;
+    private String groupName;
     
     private String academicYear;
     private int semester;

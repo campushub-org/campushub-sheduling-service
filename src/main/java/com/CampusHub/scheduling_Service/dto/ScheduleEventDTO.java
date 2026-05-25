@@ -17,6 +17,7 @@ public class ScheduleEventDTO {
     private String endTime;   // Format "HH:mm"
     private int day;          // 0 = Lundi, etc.
     private String description;
+    private String groupName;
     
     // IDs originaux pour permettre la modification
     private Long teacherId;
