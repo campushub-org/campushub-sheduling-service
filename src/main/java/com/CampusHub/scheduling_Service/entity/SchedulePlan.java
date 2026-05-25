@@ -1,5 +1,6 @@
 package com.CampusHub.scheduling_Service.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,6 +44,7 @@ public class SchedulePlan {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ScheduleEvent> events;
 
     @PrePersist

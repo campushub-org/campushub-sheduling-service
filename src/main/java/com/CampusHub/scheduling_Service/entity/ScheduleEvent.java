@@ -1,5 +1,6 @@
 package com.CampusHub.scheduling_Service.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -51,5 +52,6 @@ public class ScheduleEvent {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id")
+    @JsonBackReference
     private SchedulePlan plan;
 }
