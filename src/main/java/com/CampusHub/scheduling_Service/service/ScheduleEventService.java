@@ -100,9 +100,7 @@ public class ScheduleEventService {
         e.setEndTime(dto.getEndTime() != null ? java.time.LocalTime.parse(dto.getEndTime()) : java.time.LocalTime.of(10, 0));
         e.setRoomId(dto.getRoomId());
         e.setDescription(dto.getDescription());
-        if (dto.getTeacherId() != null) {
-            e.setAssignmentId(dto.getTeacherId());
-        }
+        e.setAssignmentId(dto.getTeacherId()); // Autorise le null explicitement
         if (dto.getPlanId() != null) {
             schedulePlanRepository.findById(UUID.fromString(dto.getPlanId())).ifPresent(e::setPlan);
         }
