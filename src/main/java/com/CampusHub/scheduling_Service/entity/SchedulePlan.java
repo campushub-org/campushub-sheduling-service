@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -32,6 +33,10 @@ public class SchedulePlan {
     private int semester;
 
     private String level; // L1, L2, L3, M1, M2
+
+    private LocalDate startDate; // Date de début du semestre
+
+    private LocalDate endDate;   // Date de fin du semestre
 
     private String createdBy;
 

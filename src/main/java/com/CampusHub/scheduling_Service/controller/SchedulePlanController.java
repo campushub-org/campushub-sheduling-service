@@ -33,8 +33,7 @@ public class SchedulePlanController {
 
     @PutMapping("/{id}")
     public SchedulePlan updatePlan(@PathVariable UUID id, @RequestBody SchedulePlan plan) {
-        plan.setId(id);
-        return planService.createPlan(plan); // Re-use createPlan which does resetCurrentDefaults + save
+        return planService.updatePlan(id, plan);
     }
 
     @PostMapping("/{id}/activate")

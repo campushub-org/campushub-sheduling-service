@@ -27,6 +27,8 @@ public class SchedulePlanService {
         plan.setAcademicYear(dto.getAcademicYear());
         plan.setSemester(dto.getSemester());
         plan.setLevel(dto.getLevel());
+        plan.setStartDate(dto.getStartDate());
+        plan.setEndDate(dto.getEndDate());
         plan.setStatus(SchedulePlan.PlanStatus.DRAFT);
         
         final SchedulePlan savedPlan = planRepository.save(plan);
@@ -52,6 +54,8 @@ public class SchedulePlanService {
         dto.setAcademicYear(plan.getAcademicYear());
         dto.setSemester(plan.getSemester());
         dto.setLevel(plan.getLevel());
+        dto.setStartDate(plan.getStartDate());
+        dto.setEndDate(plan.getEndDate());
         
         // Note: conversion back to DTO is needed here if events are lazily loaded
         // This is simplified for the example
@@ -61,6 +65,28 @@ public class SchedulePlanService {
     public SchedulePlan getPlanById(UUID id) {
         return planRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Plan non trouvé"));
+    }
+
+    @Transactional
+    public SchedulePlan updatePlan(UUID id, SchedulePlan planData) {
+        SchedulePlan existing = getPlanById(id);
+        
+        existing.setName(planData.getName());
+        existing.setAcademicYear(planData.getAcademicYear());
+        existing.setSemester(planData.getSemester());
+        existing.setLevel(planData.getLevel());
+        existing.setStartDate(planData.getStartDate());
+        existing.setEndDate(planData.getEndDate());
+        existing.setStatus(planData.getStatus());
+        
+        if (planData.isDefault() && !existing.isDefault()) {
+            resetCurrentDefaults(existing.getLevel());
+            existing.setDefault(true);
+        } else {
+            existing.setDefault(planData.isDefault());
+        }
+        
+        return planRepository.save(existing);
     }
 
     @Transactional

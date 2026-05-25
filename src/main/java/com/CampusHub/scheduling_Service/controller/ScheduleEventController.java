@@ -30,15 +30,13 @@ public class ScheduleEventController {
     }
 
     @PostMapping("/events")
-    public ResponseEntity<ScheduleEvent> createEvent(@RequestBody ScheduleEventDTO eventDTO) {
-        ScheduleEvent event = scheduleEventService.convertToEntity(eventDTO);
-        return ResponseEntity.ok(scheduleEventService.saveEvent(event));
+    public ResponseEntity<ScheduleEventDTO> createEvent(@RequestBody ScheduleEventDTO eventDTO) {
+        return ResponseEntity.ok(scheduleEventService.createEvent(eventDTO));
     }
 
     @PutMapping("/events/{id}")
-    public ScheduleEvent updateEvent(@PathVariable UUID id, @RequestBody ScheduleEvent event) {
-        event.setId(id);
-        return scheduleEventService.saveEvent(event);
+    public ResponseEntity<ScheduleEventDTO> updateEvent(@PathVariable UUID id, @RequestBody ScheduleEventDTO eventDTO) {
+        return ResponseEntity.ok(scheduleEventService.updateEvent(id, eventDTO));
     }
 
     @DeleteMapping("/events/{id}")

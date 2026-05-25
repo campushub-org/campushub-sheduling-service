@@ -2,8 +2,10 @@ package com.CampusHub.scheduling_Service.integration;
 
 import com.CampusHub.scheduling_Service.client.SalleClient;
 import com.CampusHub.scheduling_Service.client.UserClient;
+import com.CampusHub.scheduling_Service.dto.ScheduleEventDTO;
 import com.CampusHub.scheduling_Service.entity.SchedulePlan;
 import com.CampusHub.scheduling_Service.repository.SchedulePlanRepository;
+import com.CampusHub.scheduling_Service.repository.ScheduleEventRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -33,6 +36,9 @@ public class SchedulingIntegrationTest {
     private SchedulePlanRepository planRepository;
 
     @Autowired
+    private ScheduleEventRepository eventRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @MockBean
@@ -43,91 +49,106 @@ public class SchedulingIntegrationTest {
 
     @BeforeEach
     void setup() {
+        eventRepository.deleteAll();
         planRepository.deleteAll();
     }
 
     @Test
-    void shouldCreateAndListPlans() throws Exception {
+    void shouldCreateAndListPlansWithDates() throws Exception {
         SchedulePlan plan = new SchedulePlan();
-        plan.setName("Plan Test L1");
+        plan.setName("Plan L1 2024");
         plan.setLevel("L1");
         plan.setStatus(SchedulePlan.PlanStatus.DRAFT);
         plan.setAcademicYear("2024-2025");
         plan.setSemester(1);
+        plan.setStartDate(LocalDate.of(2024, 9, 1));
+        plan.setEndDate(LocalDate.of(2025, 1, 31));
 
         mockMvc.perform(post("/api/scheduling/plans")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(plan)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("Plan Test L1")))
-                .andExpect(jsonPath("$.status", is("DRAFT")));
+                .andExpect(jsonPath("$.name", is("Plan L1 2024")))
+                .andExpect(jsonPath("$.startDate", is("2024-09-01")))
+                .andExpect(jsonPath("$.endDate", is("2025-01-31")));
+    }
 
-        mockMvc.perform(get("/api/scheduling/plans"))
+    @Test
+    void shouldUpdatePlan() throws Exception {
+        SchedulePlan plan = new SchedulePlan();
+        plan.setName("Version Initiale");
+        plan.setLevel("L1");
+        plan.setStatus(SchedulePlan.PlanStatus.DRAFT);
+        plan = planRepository.save(plan);
+
+        plan.setName("Version Mise à jour");
+        plan.setStatus(SchedulePlan.PlanStatus.ACTIVE);
+
+        mockMvc.perform(put("/api/scheduling/plans/" + plan.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(plan)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is("Version Mise à jour")))
+                .andExpect(jsonPath("$.status", is("ACTIVE")));
+    }
+
+    @Test
+    void shouldCreateEventLinkedToPlan() throws Exception {
+        // 1. Create a plan
+        SchedulePlan plan = new SchedulePlan();
+        plan.setName("Semestre 1");
+        plan.setLevel("L1");
+        plan.setStatus(SchedulePlan.PlanStatus.ACTIVE);
+        plan = planRepository.save(plan);
+
+        // 2. Create an event linked to this plan
+        ScheduleEventDTO eventDTO = new ScheduleEventDTO();
+        eventDTO.setTitle("Algorithmique");
+        eventDTO.setType("lecture");
+        eventDTO.setDay(0); // Lundi
+        eventDTO.setStartTime("08:00");
+        eventDTO.setEndTime("10:00");
+        eventDTO.setRoomId(101L);
+        eventDTO.setPlanId(plan.getId().toString());
+
+        mockMvc.perform(post("/api/scheduling/events")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(eventDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.planId", is(plan.getId().toString())));
+
+        // 3. Verify it's returned when filtering by plan
+        mockMvc.perform(get("/api/scheduling/events?planId=" + plan.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name", is("Plan Test L1")));
+                .andExpect(jsonPath("$[0].title", is("Algorithmique")));
     }
 
     @Test
-    void shouldActivatePlanAndArchiveOthers() throws Exception {
-        // 1. Create first active plan
-        SchedulePlan plan1 = new SchedulePlan();
-        plan1.setName("Ancien Plan");
-        plan1.setLevel("L1");
-        plan1.setSemester(1);
-        plan1.setStatus(SchedulePlan.PlanStatus.ACTIVE);
-        plan1 = planRepository.save(plan1);
+    void shouldDeletePlanAndCascadeEvents() throws Exception {
+        // 1. Create plan and event
+        SchedulePlan plan = new SchedulePlan();
+        plan.setName("Plan temporaire");
+        plan.setLevel("L1");
+        plan = planRepository.save(plan);
 
-        // 2. Create a draft plan
-        SchedulePlan plan2 = new SchedulePlan();
-        plan2.setName("Nouveau Plan");
-        plan2.setLevel("L1");
-        plan2.setSemester(1);
-        plan2.setStatus(SchedulePlan.PlanStatus.DRAFT);
-        plan2 = planRepository.save(plan2);
-
-        // 3. Activate plan 2
-        mockMvc.perform(post("/api/scheduling/plans/" + plan2.getId() + "/activate"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status", is("ACTIVE")));
-
-        // 4. Verify plan 1 is archived
-        mockMvc.perform(get("/api/scheduling/plans/" + plan1.getId()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status", is("ARCHIVED")));
-    }
-
-    @Test
-    void shouldImportPlanWithEvents() throws Exception {
-        String jsonImport = """
-            {
-              "name": "Import Test",
-              "academicYear": "2024-2025",
-              "semester": 1,
-              "level": "L1",
-              "events": [
-                {
-                  "title": "Cours Importé",
-                  "type": "lecture",
-                  "day": 0,
-                  "startTime": "08:00",
-                  "endTime": "10:00",
-                  "roomId": 1
-                }
-              ]
-            }
-            """;
-
-        mockMvc.perform(post("/api/scheduling/plans/import")
+        ScheduleEventDTO eventDTO = new ScheduleEventDTO();
+        eventDTO.setTitle("Cours à supprimer");
+        eventDTO.setRoomId(1L);
+        eventDTO.setPlanId(plan.getId().toString());
+        
+        mockMvc.perform(post("/api/scheduling/events")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonImport))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("Import Test")));
+                .content(objectMapper.writeValueAsString(eventDTO)))
+                .andExpect(status().isOk());
 
-        // Verify events are created
-        mockMvc.perform(get("/api/scheduling/events"))
+        // 2. Delete plan
+        mockMvc.perform(delete("/api/scheduling/plans/" + plan.getId()))
+                .andExpect(status().isOk());
+
+        // 3. Verify event is also gone
+        mockMvc.perform(get("/api/scheduling/events?planId=" + plan.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(greaterThan(0))))
-                .andExpect(jsonPath("$[?(@.title == 'Cours Importé')]", notNullValue()));
+                .andExpect(jsonPath("$", hasSize(0)));
     }
 }

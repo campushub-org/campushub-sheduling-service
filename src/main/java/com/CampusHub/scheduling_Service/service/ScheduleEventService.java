@@ -12,6 +12,7 @@ import com.CampusHub.scheduling_Service.repository.TeacherAssignmentRepository;
 import com.CampusHub.scheduling_Service.repository.SchedulePlanRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -60,6 +61,21 @@ public class ScheduleEventService {
                 })
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ScheduleEventDTO createEvent(ScheduleEventDTO dto) {
+        ScheduleEvent event = convertToEntity(dto);
+        ScheduleEvent saved = scheduleEventRepository.save(event);
+        return convertToDTO(saved);
+    }
+
+    @Transactional
+    public ScheduleEventDTO updateEvent(UUID id, ScheduleEventDTO dto) {
+        ScheduleEvent event = convertToEntity(dto);
+        event.setId(id);
+        ScheduleEvent saved = scheduleEventRepository.save(event);
+        return convertToDTO(saved);
     }
 
     public ScheduleEvent saveEvent(ScheduleEvent event) {
