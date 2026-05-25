@@ -30,4 +30,20 @@ public class TeacherAssignmentController {
     public List<TeacherAssignment> getAssignmentsByTeacher(@PathVariable Long teacherId) {
         return repository.findByTeacherId(teacherId);
     }
+
+    @PostMapping
+    public TeacherAssignment createAssignment(@RequestBody TeacherAssignment assignment) {
+        return repository.save(assignment);
+    }
+
+    @PutMapping("/{id}")
+    public TeacherAssignment updateAssignment(@PathVariable Long id, @RequestBody TeacherAssignment assignment) {
+        assignment.setId(id);
+        return repository.save(assignment);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAssignment(@PathVariable Long id) {
+        repository.deleteById(id);
+    }
 }
