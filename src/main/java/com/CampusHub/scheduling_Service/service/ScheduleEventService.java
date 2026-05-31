@@ -48,7 +48,6 @@ public class ScheduleEventService {
                     .filter(e -> e.getPlan() != null && e.getPlan().getId().equals(planId))
                     .collect(Collectors.toList());
         } else {
-            // Par défaut, on prend tous les événements (ou on pourrait filtrer par le plan actif)
             events = scheduleEventRepository.findAll();
         }
         
@@ -56,7 +55,10 @@ public class ScheduleEventService {
                 .filter(e -> {
                     boolean match = true;
                     if (roomId != null) match = match && roomId.equals(e.getRoomId());
-                    if (teacherId != null) match = match && teacherId.equals(e.getAssignmentId());
+                    // Filtrage si l'un des enseignants de la séance correspond
+                    if (teacherId != null) {
+                        match = match && e.getAssignmentIds() != null && e.getAssignmentIds().contains(teacherId);
+                    }
                     return match;
                 })
                 .map(this::convertToDTO)
@@ -88,7 +90,7 @@ public class ScheduleEventService {
             try {
                 e.setId(UUID.fromString(dto.getId()));
             } catch (IllegalArgumentException ex) {
-                // Ignore temporary ID, let JPA generate a new one
+                // Ignore temporary ID
             }
         }
         e.setTitle(dto.getTitle() != null ? dto.getTitle() : "Sans titre");
@@ -101,7 +103,7 @@ public class ScheduleEventService {
         e.setRoomId(dto.getRoomId());
         e.setDescription(dto.getDescription());
         e.setGroupName(dto.getGroupName());
-        e.setAssignmentId(dto.getTeacherId()); // Autorise le null explicitement
+        e.setAssignmentIds(dto.getTeacherIds()); 
         if (dto.getPlanId() != null) {
             schedulePlanRepository.findById(UUID.fromString(dto.getPlanId())).ifPresent(e::setPlan);
         }
@@ -133,13 +135,16 @@ public class ScheduleEventService {
             dto.setPlanId(e.getPlan().getId().toString());
         }
 
-        // Résolution des noms via Feign et Repository
+        // Résolution multiple des noms
         try {
-            if (e.getAssignmentId() != null) {
-                teacherAssignmentRepository.findById(e.getAssignmentId()).ifPresent(assignment -> {
-                    dto.setTeacherId(assignment.getId()); // On renvoie l'ID de l'assignation
-                    dto.setProfessor(assignment.getTeacherName() != null ? assignment.getTeacherName() : "Enseignant #" + assignment.getTeacherId());
-                });
+            if (e.getAssignmentIds() != null && !e.getAssignmentIds().isEmpty()) {
+                dto.setTeacherIds(e.getAssignmentIds());
+                List<String> names = e.getAssignmentIds().stream()
+                        .map(id -> teacherAssignmentRepository.findById(id)
+                                .map(a -> a.getTeacherName() != null ? a.getTeacherName() : "Enseignant #" + a.getTeacherId())
+                                .orElse("Inconnu #" + id))
+                        .collect(Collectors.toList());
+                dto.setProfessor(String.join(", ", names));
             } else {
                 dto.setProfessor("Non assigné");
             }

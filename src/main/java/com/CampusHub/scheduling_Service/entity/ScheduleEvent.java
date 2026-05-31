@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -27,7 +28,10 @@ public class ScheduleEvent {
 
     private String seriesId; // Nullable for unique events, shared for series
 
-    private Long assignmentId; // FK vers TeacherAssignment
+    @ElementCollection
+    @CollectionTable(name = "schedule_event_assignments", joinColumns = @JoinColumn(name = "event_id"))
+    @Column(name = "assignment_id")
+    private List<Long> assignmentIds; // Liste des FK vers TeacherAssignment
 
     @Column(nullable = false)
     private Long roomId;
