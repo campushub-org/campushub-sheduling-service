@@ -23,6 +23,7 @@ public class ScheduleEventDTO {
     // IDs originaux pour permettre la modification
     private List<Long> teacherIds;
     private String subjectCode;
+
     private Long roomId;
     private String seriesId;
     private String planId; // UUID as String

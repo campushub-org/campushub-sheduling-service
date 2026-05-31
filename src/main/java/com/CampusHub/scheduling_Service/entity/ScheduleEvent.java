@@ -29,9 +29,9 @@ public class ScheduleEvent {
     private String seriesId; // Nullable for unique events, shared for series
 
     @ElementCollection
-    @CollectionTable(name = "schedule_event_assignments", joinColumns = @JoinColumn(name = "event_id"))
-    @Column(name = "assignment_id")
-    private List<Long> assignmentIds; // Liste des FK vers TeacherAssignment
+    @CollectionTable(name = "schedule_event_teachers", joinColumns = @JoinColumn(name = "event_id"))
+    @Column(name = "teacher_id")
+    private List<Long> teacherIds; // Liste des IDs d'utilisateurs (ROLE_TEACHER)
 
     @Column(nullable = false)
     private Long roomId;

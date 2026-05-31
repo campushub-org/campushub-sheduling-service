@@ -55,9 +55,9 @@ public class ScheduleEventService {
                 .filter(e -> {
                     boolean match = true;
                     if (roomId != null) match = match && roomId.equals(e.getRoomId());
-                    // Filtrage si l'un des enseignants de la séance correspond
+                    // Filtrage si l'un des enseignants correspond
                     if (teacherId != null) {
-                        match = match && e.getAssignmentIds() != null && e.getAssignmentIds().contains(teacherId);
+                        match = match && e.getTeacherIds() != null && e.getTeacherIds().contains(teacherId);
                     }
                     return match;
                 })
@@ -103,7 +103,7 @@ public class ScheduleEventService {
         e.setRoomId(dto.getRoomId());
         e.setDescription(dto.getDescription());
         e.setGroupName(dto.getGroupName());
-        e.setAssignmentIds(dto.getTeacherIds()); 
+        e.setTeacherIds(dto.getTeacherIds()); 
         if (dto.getPlanId() != null) {
             schedulePlanRepository.findById(UUID.fromString(dto.getPlanId())).ifPresent(e::setPlan);
         }
@@ -135,14 +135,19 @@ public class ScheduleEventService {
             dto.setPlanId(e.getPlan().getId().toString());
         }
 
-        // Résolution multiple des noms
+        // Résolution via User Service (Feign)
         try {
-            if (e.getAssignmentIds() != null && !e.getAssignmentIds().isEmpty()) {
-                dto.setTeacherIds(e.getAssignmentIds());
-                List<String> names = e.getAssignmentIds().stream()
-                        .map(id -> teacherAssignmentRepository.findById(id)
-                                .map(a -> a.getTeacherName() != null ? a.getTeacherName() : "Enseignant #" + a.getTeacherId())
-                                .orElse("Inconnu #" + id))
+            if (e.getTeacherIds() != null && !e.getTeacherIds().isEmpty()) {
+                dto.setTeacherIds(e.getTeacherIds());
+                List<String> names = e.getTeacherIds().stream()
+                        .map(id -> {
+                            try {
+                                UserDTO user = userClient.getUserById(id);
+                                return user != null ? user.getFullName() : "Enseignant #" + id;
+                            } catch (Exception ex) {
+                                return "Enseignant #" + id;
+                            }
+                        })
                         .collect(Collectors.toList());
                 dto.setProfessor(String.join(", ", names));
             } else {
