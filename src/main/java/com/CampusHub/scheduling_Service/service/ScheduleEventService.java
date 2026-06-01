@@ -14,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -50,18 +52,30 @@ public class ScheduleEventService {
         } else {
             events = scheduleEventRepository.findAll();
         }
+
+        // Pré-charger tous les utilisateurs pour éviter le problème N+1
+        Map<Long, String> teacherNames = new HashMap<>();
+        try {
+            List<UserDTO> allUsers = userClient.getAllUsers();
+            if (allUsers != null) {
+                teacherNames = allUsers.stream()
+                        .collect(Collectors.toMap(UserDTO::getId, UserDTO::getFullName, (a, b) -> a));
+            }
+        } catch (Exception ex) {
+            log.error("Erreur lors du pré-chargement des utilisateurs: {}", ex.getMessage());
+        }
         
+        final Map<Long, String> finalTeacherNames = teacherNames;
         return events.stream()
                 .filter(e -> {
                     boolean match = true;
                     if (roomId != null) match = match && roomId.equals(e.getRoomId());
-                    // Filtrage si l'un des enseignants correspond
                     if (teacherId != null) {
                         match = match && e.getTeacherIds() != null && e.getTeacherIds().contains(teacherId);
                     }
                     return match;
                 })
-                .map(this::convertToDTO)
+                .map(e -> convertToDTO(e, finalTeacherNames))
                 .collect(Collectors.toList());
     }
 
@@ -69,7 +83,7 @@ public class ScheduleEventService {
     public ScheduleEventDTO createEvent(ScheduleEventDTO dto) {
         ScheduleEvent event = convertToEntity(dto);
         ScheduleEvent saved = scheduleEventRepository.save(event);
-        return convertToDTO(saved);
+        return convertToDTO(saved, null);
     }
 
     @Transactional
@@ -77,7 +91,7 @@ public class ScheduleEventService {
         ScheduleEvent event = convertToEntity(dto);
         event.setId(id);
         ScheduleEvent saved = scheduleEventRepository.save(event);
-        return convertToDTO(saved);
+        return convertToDTO(saved, null);
     }
 
     public ScheduleEvent saveEvent(ScheduleEvent event) {
@@ -118,7 +132,7 @@ public class ScheduleEventService {
         scheduleEventRepository.deleteById(id);
     }
 
-    private ScheduleEventDTO convertToDTO(ScheduleEvent e) {
+    private ScheduleEventDTO convertToDTO(ScheduleEvent e, Map<Long, String> teacherNames) {
         ScheduleEventDTO dto = new ScheduleEventDTO();
         dto.setId(e.getId().toString());
         dto.setTitle(e.getTitle());
@@ -141,6 +155,9 @@ public class ScheduleEventService {
                 dto.setTeacherIds(e.getTeacherIds());
                 List<String> names = e.getTeacherIds().stream()
                         .map(id -> {
+                            if (teacherNames != null && teacherNames.containsKey(id)) {
+                                return teacherNames.get(id);
+                            }
                             try {
                                 UserDTO user = userClient.getUserById(id);
                                 return user != null ? user.getFullName() : "Enseignant #" + id;
